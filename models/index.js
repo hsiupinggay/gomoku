@@ -1,6 +1,7 @@
 const sequelizePackage = require('sequelize');
 const allConfig = require('../config/config');
 const gameModel = require('./gameModel');
+const userModel = require('./userModel');
 
 const { Sequelize } = sequelizePackage;
 const env = process.env.NODE_ENV || 'development';
@@ -15,6 +16,10 @@ const sequelize = new Sequelize(
 );
 
 db.Game = gameModel(sequelize, Sequelize.DataTypes);
+db.User = userModel(sequelize, Sequelize.DataTypes);
+
+db.User.belongsToMany(db.Game, { through: 'games_users' });
+db.Game.belongsToMany(db.User, { through: 'games_users' });
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;

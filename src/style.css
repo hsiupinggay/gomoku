@@ -1,0 +1,34 @@
+.cells {
+  border: 1px dotted rgb(230, 36, 36);
+}
+
+.grid-cells {
+  border: 1px solid rgb(8, 42, 231);
+}
+
+table {
+  border-collapse: collapse;
+}
+
+.board {
+  position: relative;
+}
+
+.click-board {
+  position: absolute;
+  z-index: 1;
+}
+
+.grid {
+  position: absolute;
+  left: 15px;
+  top: 15px;
+  z-index: 0;
+}
+
+.cells,
+.grid-cells {
+  height: 30px;
+  width: 30px;
+  text-align: center;
+}
