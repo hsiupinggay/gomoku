@@ -1,55 +1,68 @@
-const userAuthDiv = document.createElement('div');
-document.body.append(userAuthDiv);
+const userAuthDiv = document.querySelector('#user-auth-div');
+userAuthDiv.classList.add('d-flex', 'justify-content-center');
 
 // sign up
-const signUpDiv = document.createElement('div');
-userAuthDiv.appendChild(signUpDiv);
+const signUpDiv = document.querySelector('#signup-div');
+// signUpDiv.classList.add('signup-div');
 
 // login -- appended later
-const loginDiv = document.createElement('div');
+// const loginDiv = document.createElement('div');
 const loginBtn = document.createElement('button');
+loginBtn.classList.add('blue-button');
 loginBtn.setAttribute('type', 'submit');
 loginBtn.textContent = 'log in';
 
+const userInputDiv = document.querySelector('#user-input-div');
+
 const nameDiv = document.createElement('div');
-signUpDiv.appendChild(nameDiv);
-const nameLabel = document.createElement('label');
-nameLabel.setAttribute('for', 'name');
-nameLabel.textContent = 'name: ';
-nameDiv.appendChild(nameLabel);
+userInputDiv.appendChild(nameDiv);
+// const nameLabel = document.createElement('label');
+// nameLabel.setAttribute('for', 'name');
+// nameLabel.textContent = 'name: ';
+// nameDiv.appendChild(nameLabel);
 const nameInput = document.createElement('input');
+nameInput.classList.add('input-bar');
+nameInput.placeholder = 'Name';
 nameInput.setAttribute('id', 'name');
 nameDiv.appendChild(nameInput);
 
 const emailDiv = document.createElement('div');
-signUpDiv.appendChild(emailDiv);
-const emailLabel = document.createElement('label');
-emailLabel.setAttribute('for', 'email');
-emailLabel.textContent = 'email: ';
-emailDiv.appendChild(emailLabel);
+userInputDiv.appendChild(emailDiv);
+// const emailLabel = document.createElement('label');
+// emailLabel.setAttribute('for', 'email');
+// emailLabel.textContent = 'email: ';
+// emailDiv.appendChild(emailLabel);
 const emailInput = document.createElement('input');
+emailInput.classList.add('input-bar');
+emailInput.placeholder = 'Email';
 emailInput.setAttribute('id', 'email');
 emailDiv.appendChild(emailInput);
 
 const passwordDiv = document.createElement('div');
-signUpDiv.appendChild(passwordDiv);
-const passwordLabel = document.createElement('label');
-passwordLabel.setAttribute('for', 'password');
-passwordLabel.textContent = 'password: ';
-passwordDiv.appendChild(passwordLabel);
+userInputDiv.appendChild(passwordDiv);
+// const passwordLabel = document.createElement('label');
+// passwordLabel.setAttribute('for', 'password');
+// passwordLabel.textContent = 'password: ';
+// passwordDiv.appendChild(passwordLabel);
 const passwordInput = document.createElement('input');
+passwordInput.classList.add('input-bar');
+passwordInput.placeholder = 'Password';
 passwordInput.setAttribute('id', 'password');
 passwordDiv.appendChild(passwordInput);
 
 const signUpBtn = document.createElement('button');
+signUpBtn.classList.add('blue-button');
+
 signUpBtn.setAttribute('type', 'submit');
 signUpBtn.textContent = 'sign up';
-signUpDiv.appendChild(signUpBtn);
+userInputDiv.appendChild(signUpBtn);
 
-const existingUserBtn = document.createElement('button');
-existingUserBtn.setAttribute('type', 'submit');
-existingUserBtn.textContent = 'already a user';
-signUpDiv.appendChild(existingUserBtn);
+const loginTab = document.querySelector('#login-tab');
+const signupTab = document.querySelector('#signup-tab');
+// existingUserBtn.classList.add('existing-user-btn');
+// existingUserBtn.setAttribute('type', 'submit');
+// existingUserBtn.textContent = 'already a user';
+// existingUserDiv.appendChild(existingUserBtn);
 
 // sign up event call back
 const signUp = async () => {
@@ -79,17 +92,33 @@ const signUp = async () => {
 };
 
 const goToLogin = () => {
-  signUpDiv.remove();
-  userAuthDiv.appendChild(loginDiv);
-  // reusing email and password input div created above
-  loginDiv.append(emailDiv, passwordDiv, loginBtn);
+  nameInput.remove();
+  loginTab.classList.add('active');
+  signupTab.classList.remove('active');
+
+  signUpBtn.remove();
+  userInputDiv.append(loginBtn);
+
+  // signUpDiv.remove();
+  // userAuthDiv.appendChild(loginDiv);
+  // // reusing email and password input div created above
+  // loginDiv.append(emailDiv, passwordDiv, loginBtn);
 };
 
 // signup button functionality
 signUpBtn.addEventListener('click', signUp);
+// login tab
+loginTab.addEventListener('click', goToLogin);
+// signup tab
+const goToSignup = () => {
+  nameDiv.append(nameInput);
+  loginTab.classList.remove('active');
+  signupTab.classList.add('active');
+  loginBtn.remove();
+  userInputDiv.append(signUpBtn);
+};
 
-// already a user functionality
-existingUserBtn.addEventListener('click', goToLogin);
+signupTab.addEventListener('click', goToSignup);
 
 const login = async () => {
   const userData = {
@@ -105,10 +134,12 @@ const login = async () => {
 
     const userDiv = document.createElement('div');
     dashboardDiv.appendChild(userDiv);
-    userDiv.classList.add('user-div col-md-2');
-    buttonDiv.appendChild(createButton);
+    userDiv.classList.add('col-md-6');
+
+    buttonDiv.append(createButton);
     if (loginResponse.data.success === true) {
       userDiv.innerText = loginResponse.data.name;
+      message.innerText = `Hello, ${loginResponse.data.name}`;
     } else {
       userDiv.innerText = 'failed';
     }
@@ -116,11 +147,3 @@ const login = async () => {
 };
 // login button functionality
 loginBtn.addEventListener('click', login);
-
-// ==== DOM: Create Button ==== //
-
-const createButton = document.createElement('button');
-const buttonDiv = document.querySelector('#button-container');
-createButton.innerText = 'create';
-// appending of createButton is in login callback, i.e. button will only appear after login success
-createButton.addEventListener('click', createGame);

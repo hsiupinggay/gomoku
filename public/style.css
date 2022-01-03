@@ -1,0 +1,85 @@
+/* background gradient*/
+html {
+  height: 100%;
+}
+
+body {
+  background-color: #f1dfd1;
+  background-image: linear-gradient(315deg, #f1dfd1 0%, #f6f0ea 74%);
+}
+/* user auth */
+.input-bar,
+.card {
+  margin: 5px;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom: 1px solid rgb(8, 42, 231);
+}
+.blue-button {
+  margin: 5px;
+  width: 80%;
+  border-radius: 10px;
+  border: none;
+  color: white;
+  background-color: rgb(0, 81, 255);
+}
+
+#signup-div {
+  margin-top: 100px;
+}
+
+/* go-board */
+.cells {
+  border: 1px dotted grey;
+}
+
+.grid-cells {
+  border: 1px solid rgb(8, 42, 231);
+}
+
+table {
+  border-collapse: collapse;
+}
+
+.board {
+  position: relative;
+}
+
+.click-board {
+  position: absolute;
+  left: 50px;
+  z-index: 1;
+}
+
+.grid {
+  position: absolute;
+  left: 65px;
+  top: 15px;
+  z-index: 0;
+}
+
+.cells,
+.grid-cells {
+  height: 30px;
+  width: 30px;
+  text-align: center;
+}
+
+.main {
+  display: flex;
+  flex-direction: row;
+}
+
+.message-button-container {
+  display: flex;
+  flex-direction: column;
+}
+
+#board-container {
+  flex-grow: 1;
+}
+
+h1 {
+  color: rgb(8, 42, 231);
+}

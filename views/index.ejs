@@ -17,12 +17,37 @@
     <title>Document</title>
   </head>
   <body>
-    <div class="container justify-content-center">
-      <div class="row" id="dashboard-div"></div>
-      <div class="row" id="board-container"></div>
-      <div class="row" id="message-container"></div>
-      <div class="row" id="button-container"></div>
+    <!-- user auth -->
+    <div id="user-auth-div">
+      <!-- sign up -->
+      <div id="signup-div">
+      <div class="card text-center">
+        <div class="card-header">
+          <ul class="nav nav-tabs card-header-tabs">
+            <li class="nav-item">
+              <a id="signup-tab" class="nav-link active">Sign Up</a>
+            </li>
+            <li class="nav-item">
+              <a id="login-tab" class="nav-link">Log In</a>
+            </li>
+        </div>
+        <div id="user-input-div" class="card-body">
+        </div>
+      </div>
+      </div>
+     
     </div>
+    <!-- end of user auth -->
+    <div class="container d-flex justify-content-center">
+      <div class="row" id="dashboard-div"></div>
+         </div>
+      <div class="main">
+        <div id="board-container"></div>
+        <div class="message-button-container">
+          <div id="message-container"></div>
+          <div id="button-container"></div>
+        </div>
+      </div>
     <!-- Axios -->
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <!-- Bootstrap related -->
@@ -42,8 +67,8 @@
       crossorigin="anonymous"
     ></script>
     <!-- JavaScript -->
-    <script src="./src/user.js"></script>
-    <script src="./src/update.js"></script>
-    <script src="./src/script.js"></script>
+    <script src="/user.js"></script>
+    <script src="/update.js"></script>
+    <script src="/script.js"></script>
   </body>
 </html>
