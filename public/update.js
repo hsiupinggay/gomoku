@@ -6,9 +6,8 @@ let currentGameId; // for req.params on `/games/update/${currentGameId}`
 
 // ==== DOM: Message Box ==== //
 
-const messageContainer = document.querySelector('#message-container');
-const message = document.createElement('h1');
-messageContainer.append(message);
+const gameResult = document.createElement('h2');
+messageContainer.append(gameResult);
 
 // update function
 // i: y-coord; j: x-cord
@@ -47,9 +46,9 @@ const placeSeed = async (cell, i, j) => {
     if (response.data.gameState.winnerPlayer) {
       console.log('player who won', response.data.gameState.winnerPlayer);
       if (response.data.gameState.winnerPlayer === 'black') {
-        message.innerText = 'Black wins!';
+        gameResult.innerText = 'Black wins!';
       } else if (response.data.gameState.winnerPlayer === 'white') {
-        message.innerText = 'White wins!';
+        gameResult.innerText = 'White wins!';
       }
     }
   } catch (error) { console.log(error); }

@@ -13,6 +13,13 @@
       integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
       crossorigin="anonymous"
     />
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300&family=Prata&display=swap"
+      rel="stylesheet"
+    />
 
     <title>Document</title>
   </head>
@@ -21,33 +28,36 @@
     <div id="user-auth-div">
       <!-- sign up -->
       <div id="signup-div">
-      <div class="card text-center">
-        <div class="card-header">
-          <ul class="nav nav-tabs card-header-tabs">
-            <li class="nav-item">
-              <a id="signup-tab" class="nav-link active">Sign Up</a>
-            </li>
-            <li class="nav-item">
-              <a id="login-tab" class="nav-link">Log In</a>
-            </li>
-        </div>
-        <div id="user-input-div" class="card-body">
+        <div class="user-card card text-center">
+          <div class="card-header">
+            <ul class="nav nav-tabs card-header-tabs">
+              <li class="nav-item">
+                <a id="signup-tab" class="nav-link active">SIGN UP</a>
+              </li>
+              <li class="nav-item">
+                <a id="login-tab" class="nav-link">LOG IN</a>
+              </li>
+            </ul>
+          </div>
+          <div id="user-input-div" class="card-body"></div>
         </div>
       </div>
-      </div>
-     
     </div>
     <!-- end of user auth -->
-    <div class="container d-flex justify-content-center">
+    <!-- <div class="container d-flex justify-content-center">
       <div class="row" id="dashboard-div"></div>
-         </div>
-      <div class="main">
-        <div id="board-container"></div>
-        <div class="message-button-container">
-          <div id="message-container"></div>
-          <div id="button-container"></div>
-        </div>
+    </div> -->
+
+    <div class="main">
+      <div id="board-container"></div>
+      <div id="logo-container">
+        <img id="logo" src="/images/play-logo.png" alt="" />
       </div>
+      <div class="message-button-container">
+        <div id="message-container"></div>
+        <div id="button-container"></div>
+      </div>
+    </div>
     <!-- Axios -->
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <!-- Bootstrap related -->
@@ -67,6 +77,7 @@
       crossorigin="anonymous"
     ></script>
     <!-- JavaScript -->
+    <script src="/jwt.js"></script>
     <script src="/user.js"></script>
     <script src="/update.js"></script>
     <script src="/script.js"></script>

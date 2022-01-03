@@ -27,7 +27,7 @@ const initGameController = require('./controllers/gameController');
 const db = require('./models/index');
 
 // import middlewares
-const auth = require('./middlewares/auth');
+const auth = require('./middlewares/auth')();
 
 // initialize controllers
 const userController = initUserController(db);

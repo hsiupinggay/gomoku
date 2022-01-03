@@ -26,7 +26,7 @@ const initUserController = (db) => {
       });
 
       const payload = { id: newUser.id, email: newUser.email };
-      const token = jwt.sign(payload, JWT_SALT, { expiresIn: '5mins' });
+      const token = jwt.sign(payload, JWT_SALT, { expiresIn: '100d' });
       return res.status(200).send({ newUser, token });
     } catch (error) { console.log(error); }
   };
@@ -44,22 +44,42 @@ const initUserController = (db) => {
 
     if (compare) {
       // Cookies
-      res.cookie('loggedIn', true);
       res.cookie('userId', user.id);
-      return res.status(200).send({ success: true, name: user.name });
+      res.cookie('loggedIn', true);
 
-      // // JWT
-      // const payload = { id: user.id, email: user.email };
-      // const token = jwt.sign(payload, JWT_SALT, { expiresIn: '5mins' });
-      // console.log('jwt payload', payload);
-      // console.log('jwt token', token);
+      // JWT
+      const payload = { id: user.id, email: user.email };
+      const token = jwt.sign(payload, JWT_SALT, { expiresIn: '100d' });
+      console.log('jwt payload', payload);
+      console.log('jwt token', token);
 
-      // return res.status(200).send({ success: true, name: user.name, token });
+      return res.status(200).send({ success: true, name: user.name, token });
     }
-    return res.status(401).send({ error: 'wrong password' });
+    return res.status(401).send({ loginError: true });
   };
 
-  return { signup, login };
+  const logout = async (req, res) => {
+    console.log('current game id:logout function', req.params.id);
+    try {
+      const currentGame = await db.Game.findByPk(req.params.id);
+      console.log('current game', currentGame);
+
+      const updateStatus = await currentGame.update({
+        gameState: {
+          status: 'completed',
+        },
+      });
+
+      console.log('status updated', updateStatus);
+      res.clearCookie('loggedIn');
+      res.clearCookie('userId');
+      return res.send({ logoutSuccess: true });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  return { signup, login, logout };
 };
 
 module.exports = initUserController;

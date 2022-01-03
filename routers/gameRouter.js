@@ -4,12 +4,9 @@ const router = express.Router();
 
 const gameRouter = (controller, auth) => {
   router.get('/', controller.index.bind(controller));
-  router.post('/create', controller.create.bind(controller));
+  router.post('/create', auth, controller.create.bind(controller));
   router.put('/update/:id', controller.update.bind(controller));
 
-  // router.put('/', controller.update.bind(controller));
-
-  // router.put('/', controller.putMethod);
   return router;
 };
 
