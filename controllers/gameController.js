@@ -161,10 +161,11 @@ const initGameController = (db) => {
 
     // console.log('all users except current user', allUsersExceptCurrentUser);
 
-    if (Number(currentPlayerId) === 4) {
-      player1Id = 6;
-    } else if (Number(currentPlayerId) === 4) {
-      player1Id = 6;
+    // assigns other user in user database as player 1
+    if (Number(currentPlayerId) === 1) {
+      player1Id = 2;
+    } else if (Number(currentPlayerId) === 2) {
+      player1Id = 1;
     }
     console.log('player 1 id', player1Id);
 
