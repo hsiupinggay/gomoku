@@ -50,6 +50,9 @@ userInputDiv.appendChild(signUpBtn);
 const loginTab = document.querySelector('#login-tab');
 const signupTab = document.querySelector('#signup-tab');
 
+// === DOM: Error message === //
+const errorText = document.querySelector('#error-text');
+
 // === DOM: Message Related === //
 // player0Div contains
 // 1. greeting (Hello,)
@@ -67,6 +70,19 @@ const logoDiv = document.querySelector('#logo-container');
 logoDiv.classList.add('top-right');
 const logo = document.querySelector('#logo');
 
+// callback when login tab is clicked
+const goToLogin = () => {
+  nameInput.remove();
+  loginTab.classList.add('active');
+  signupTab.classList.remove('active');
+
+  signUpBtn.remove();
+  userInputDiv.append(loginBtn);
+};
+
+// login tab
+loginTab.addEventListener('click', goToLogin);
+
 // sign up event call back
 const signUp = async () => {
   const newUser = {
@@ -80,35 +96,29 @@ const signUp = async () => {
   try {
     const signUpResponse = await axios.post('/users/signup', newUser);
 
+    // error handling in case input fields are empty
+    if (signUpResponse.data.error) {
+      errorText.innerText = signUpResponse.data.error;
+      return;
+    }
+
     console.log(signUpResponse.data);
     console.log('sign up response, new user', signUpResponse.data.newUser);
 
-    signUpDiv.remove();
+    // signUpDiv.remove();
+    goToLogin();
 
-    const dashboardDiv = document.createElement('div');
-    document.body.appendChild(dashboardDiv);
+    // const dashboardDiv = document.createElement('div');
+    // document.body.appendChild(dashboardDiv);
 
-    const userDiv = document.createElement('div');
-    dashboardDiv.appendChild(userDiv);
-    userDiv.innerText = signUpResponse.data.newUser.name;
+    // const userDiv = document.createElement('div');
+    // dashboardDiv.appendChild(userDiv);
+    errorText.innerText = `Hello ${signUpResponse.data.newUser.name}, log in to start playing.`;
   } catch (error) { console.log(error); }
-};
-
-// callback when login tab is clicked
-const goToLogin = () => {
-  nameInput.remove();
-  loginTab.classList.add('active');
-  signupTab.classList.remove('active');
-
-  signUpBtn.remove();
-  userInputDiv.append(loginBtn);
 };
 
 // signup button functionality
 signUpBtn.addEventListener('click', signUp);
-
-// login tab
-loginTab.addEventListener('click', goToLogin);
 
 // call back when signup tab is clicked
 const goToSignup = () => {
@@ -153,7 +163,6 @@ const login = async () => {
     } else if (loginResponse.data.error) {
       // handle error
       console.log('error detected');
-      const errorText = document.querySelector('#error-text');
       errorText.innerHTML = loginResponse.data.error;
     }
   } catch (error) { console.log(error); }

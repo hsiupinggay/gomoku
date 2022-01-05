@@ -106,6 +106,11 @@ const checkWin = (boardMatrix, player) => {
   return false;
 };
 
+const getRandomInteger = (max) => {
+  const randomFloat = Math.random();
+  return Math.ceil(randomFloat * max);
+};
+
 //* * Controller */
 const initGameController = (db) => {
   const index = (req, res) => {
@@ -132,26 +137,26 @@ const initGameController = (db) => {
       moves: null,
       nextPlayer: 0,
     });
-    // handle success
-    // if (created) {
 
-    let player1Id; // player numbers are 0-indexed
-    // const allUsersExceptCurrentUser = await db.User.findAll({
-    //   where: {
-    //     id: {
-    //       [Op.not]: req.cookies.userId,
-    //     },
-    //   },
-    // });
+    // // testing for getting random user
+    // const allUsers = await db.User.findAll();
+    // // console.log('allUsers', allUsers);
+    // const randomInteger = getRandomInteger(allUsers);
+    // const randomUser = allUsers.splice(randomInteger, 1);
+    // console.log('######## RANDOM USER ########');
+    // console.log('random user!!!!', randomUser.user);
 
-    // console.log('all users except current user', allUsersExceptCurrentUser);
+    // assign random user as player 1, player number 0-indexed
+    const countOfUsers = await db.User.count();
+    const getPlayer1Id = () => {
+      let randomInteger = Number(currentPlayerId);
+      while (randomInteger === Number(currentPlayerId)) {
+        randomInteger = getRandomInteger(countOfUsers);
+      }
+      return randomInteger;
+    };
 
-    // assigns other user in user database as player 1
-    if (Number(currentPlayerId) === 1) {
-      player1Id = 2;
-    } else if (Number(currentPlayerId) === 2) {
-      player1Id = 1;
-    }
+    const player1Id = getPlayer1Id();
     console.log('player 1 id', player1Id);
 
     const player0 = await db.User.findOne({
@@ -175,10 +180,6 @@ const initGameController = (db) => {
     console.log('player 1', player1);
     console.log('new game id', currentGame.id);
     return res.send({ id: currentGame.id, player0, player1 });
-    // }
-    // const currentPlayer = await db.User.findByPk(currentPlayerId);
-    // const allCurrentPlayerGames = currentPlayer.getGames();
-    // const activeGame = allCurrentPlayerGames.findOne
   };
 
   const update = async (req, res) => {

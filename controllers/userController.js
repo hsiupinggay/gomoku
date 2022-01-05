@@ -9,8 +9,8 @@ const initUserController = (db) => {
     const { name, email, password } = req.body;
     console.log('new user', { name, email, password });
 
-    if (!email || !password) {
-      return res.status(500).json({ msg: 'You are an idiot' });
+    if (!email || !password || !name) {
+      return res.send({ error: 'Please fill in all required fields.' });
     }
     console.log('bcrypt salt', PW_SALT);
     console.log('bcrypt salt type', typeof PW_SALT);
@@ -35,7 +35,7 @@ const initUserController = (db) => {
     const { email, password } = req.body;
     console.log('current user info', email, password);
     if (!email || !password) {
-      return res.send({ error: 'please type in both email and password' });
+      return res.send({ error: 'Please type in both email and password.' });
     }
 
     try {
