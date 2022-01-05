@@ -8,10 +8,17 @@ body {
   background-image: linear-gradient(315deg, #f1dfd1 0%, #f6f0ea 74%);
 }  */
 
-body {
+/* body {
   background: linear-gradient(-45deg, #eed2ca, #e2c0cd, #f1d9c6, #e7c6bb);
   background-size: 400% 400%;
   animation: gradient 15s ease infinite;
+  height: 100vh;
+} */
+
+body {
+  background: linear-gradient(-45deg, #c7271c, #7f99a8, #c29b7c, #bbc3e7);
+  background-size: 400% 400%;
+  animation: gradient 25s ease infinite;
   height: 100vh;
 }
 
@@ -27,14 +34,22 @@ body {
   }
 }
 
+/* body {
+  background-color: #001fcf !important;
+} */
+
 /* user auth */
+
+/* #user-auth-div {
+  flex-direction: column;
+} */
 .input-bar,
 .card {
   margin: 5px;
   border-top: none;
   border-left: none;
   border-right: none;
-  border-bottom: 1px solid rgb(8, 42, 231);
+  border-bottom: 1px solid #5d9dc2;
 }
 
 .input-bar,
@@ -44,7 +59,13 @@ body {
   letter-spacing: 0.1em;
 }
 
-.blue-button {
+.error-text {
+  font-size: 14px;
+  letter-spacing: 0.1em;
+  color: white;
+}
+
+.user-auth-button {
   margin: 5px;
   margin-top: 10px;
   width: 80%;
@@ -52,13 +73,13 @@ body {
   font-size: 14px;
   letter-spacing: 0.1em;
   border: none;
-  border-bottom: 1px solid rgb(8, 42, 231);
-  color: rgb(8, 42, 231);
+  border-bottom: 1px solid #5d9dc2;
+  color: #3e4950;
   background-color: transparent;
 }
 
-.blue-button:hover {
-  border-bottom: 2px solid rgb(8, 42, 231);
+.user-auth-button:hover {
+  border-bottom: 2px solid #5d9dc2;
 }
 
 #signup-div {
@@ -69,15 +90,24 @@ body {
   border-radius: 15px !important;
   border: none !important;
 }
+
 /* go-board */
+
 .cells {
+  /* uncomment to see dotted clickableBoard */
   /* border: 1px dotted rgb(165, 122, 97); */
   border: none;
-  color: rgb(8, 42, 231);
+  color: white;
 }
 
 .grid-cells {
-  border: 1px solid rgb(8, 42, 231);
+  border: 1px solid white;
+}
+
+.star {
+  font-size: 8px;
+  text-align: center;
+  margin: 2px;
 }
 
 table {
@@ -91,7 +121,6 @@ table {
 .click-board {
   position: absolute;
   right: 20px;
-  /* left: 100px; */
   top: 40px;
   z-index: 1;
 }
@@ -99,7 +128,6 @@ table {
 .grid {
   position: absolute;
   right: 35px;
-  /* left: 215px; */
   top: 55px;
   z-index: 0;
 }
@@ -111,21 +139,35 @@ table {
   text-align: center;
 }
 
+.gameover-overlay {
+  position: absolute;
+  right: 20px;
+  top: 40px;
+  width: 570px;
+  height: 570px;
+  z-index: 2;
+  background-color: #8b8282c5;
+}
+
 .main {
   display: flex;
   flex-direction: row;
+  justify-content: center;
+  margin-top: 20px;
   margin-left: 20px;
-  margin-right: 20px;
+  margin-right: 40px;
 }
 
 #board-container {
   flex-grow: 1;
 }
 
+.board-wrap {
+  min-width: 650px;
+}
 /* logo movement */
 .in-game {
   display: flex;
-  /* justify-content: flex-start; */
   margin-top: 15%;
 }
 
@@ -135,7 +177,69 @@ table {
   top: 10%;
 }
 
-/* message-button related */
+.logo-in-game {
+  width: 120px;
+  height: 120px;
+}
+
+@media screen and (max-width: 1240px) {
+  .in-game {
+    margin-top: 230px;
+    margin-right: -10%;
+  }
+
+  .player1-div {
+    display: flex;
+    justify-content: flex-start;
+    margin-top: 50px;
+    margin-left: -15px;
+  }
+}
+
+@media screen and (min-width: 1241px) {
+  .player1-div {
+    display: flex;
+    justify-content: flex-start;
+    margin-top: 50px;
+    margin-left: -60px;
+  }
+}
+
+/* overlay */
+@media screen and (max-width: 1000px) {
+  #overlay {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #8b8282c5;
+    z-index: 3;
+  }
+
+  #overlay-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    font-size: 14px;
+    letter-spacing: 0.1em;
+    color: white;
+    text-transform: uppercase;
+    text-align: center;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+  }
+}
+
+@media screen and (min-width: 1001px) {
+  #overlay {
+    display: none;
+  }
+}
+
+/* message & button related */
 
 .message-button-container {
   margin: 20px;
@@ -145,7 +249,7 @@ table {
 
 h1,
 h2 {
-  color: rgb(8, 42, 231) !important;
+  color: white !important;
   font-family: "Cormorant Garamond", serif !important;
 }
 
@@ -157,11 +261,63 @@ h2 {
   font-size: 40px !important;
 }
 
+.seed-tag {
+  font-size: 14px;
+  letter-spacing: 0.1em;
+  color: white;
+  text-transform: uppercase;
+}
+
 .game-button {
   height: 70px;
   width: 70px;
+  font-size: 14px;
+  letter-spacing: 0.1em;
   border-radius: 50%;
-  border: none;
-  background-color: rgb(8, 42, 231);
+  border: 1px solid white;
+  background-color: transparent;
   color: white;
+  margin-left: -30px;
+}
+
+.game-button:active {
+  outline: none;
+}
+
+#side-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 100px;
+}
+
+.logout-button {
+  font-size: 14px;
+  letter-spacing: 0.1em;
+  border-top: none;
+  border-right: none;
+  border-left: none;
+  border-bottom: 1px solid white;
+  background-color: transparent;
+  color: white;
+  transform: rotate(90deg);
+}
+
+.game-result-div {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 30px;
+  margin-left: -70px;
+}
+
+.player0-ingame {
+  display: flex;
+}
+
+.winner-tag {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  margin-top: -10px;
+  margin-left: 25px;
+  z-index: 2;
 }

@@ -35,27 +35,38 @@ const initUserController = (db) => {
     const { email, password } = req.body;
     console.log('current user info', email, password);
     if (!email || !password) {
-      return res.status(500).send({ msg: 'You are an idiot' });
+      return res.send({ error: 'please type in both email and password' });
     }
-    const user = await db.User.findOne({ where: { email } });
-    // bcrypt compares the input password (hashes it) with the hashed password in the db
-    console.log('current user', user);
-    const compare = await bcrypt.compare(password, user.password);
 
-    if (compare) {
-      // Cookies
-      res.cookie('userId', user.id);
-      res.cookie('loggedIn', true);
+    try {
+      const user = await db.User.findOne({ where: { email } });
+      // bcrypt compares the input password (hashes it) with the hashed password in the db
+      console.log('current user', user);
 
-      // JWT
-      const payload = { id: user.id, email: user.email };
-      const token = jwt.sign(payload, JWT_SALT, { expiresIn: '100d' });
-      console.log('jwt payload', payload);
-      console.log('jwt token', token);
+      const compare = await bcrypt.compare(password, user.password);
 
-      return res.status(200).send({ success: true, name: user.name, token });
+      if (compare) {
+        console.log('password matched');
+        // Cookies
+        res.cookie('userId', user.id);
+        res.cookie('loggedIn', true);
+
+        // JWT
+        const payload = { id: user.id, email: user.email };
+        const token = jwt.sign(payload, JWT_SALT, { expiresIn: '100d' });
+        console.log('jwt payload', payload);
+        console.log('jwt token', token);
+
+        return res.status(200).send({ success: true, name: user.name, token });
+      }
+      // if email found but password does not match db
+      console.log('error in login, password not found');
+      return res.send({ error: 'your email or password is incorrect,</br> please try again' });
+    } catch (error) {
+      // if email not found
+      console.log('error in login, likely email not found');
+      return res.send({ error: 'your email or password is incorrect,</br> please try again' });
     }
-    return res.status(401).send({ loginError: true });
   };
 
   const logout = async (req, res) => {

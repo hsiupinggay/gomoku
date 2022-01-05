@@ -1,13 +1,13 @@
 // === DOM: User Auth == //
 
 const userAuthDiv = document.querySelector('#user-auth-div');
-userAuthDiv.classList.add('d-flex', 'justify-content-center');
+userAuthDiv.classList.add();
 
 // sign up
 const signUpDiv = document.querySelector('#signup-div');
 
 const loginBtn = document.createElement('button');
-loginBtn.classList.add('blue-button');
+loginBtn.classList.add('user-auth-button');
 loginBtn.setAttribute('type', 'submit');
 loginBtn.textContent = 'LOG IN';
 
@@ -41,7 +41,7 @@ passwordInput.type = 'password';
 passwordDiv.appendChild(passwordInput);
 
 const signUpBtn = document.createElement('button');
-signUpBtn.classList.add('blue-button');
+signUpBtn.classList.add('user-auth-button');
 
 signUpBtn.setAttribute('type', 'submit');
 signUpBtn.textContent = 'SIGN UP';
@@ -51,20 +51,21 @@ const loginTab = document.querySelector('#login-tab');
 const signupTab = document.querySelector('#signup-tab');
 
 // === DOM: Message Related === //
-// messageContainer contains
+// player0Div contains
 // 1. greeting (Hello,)
 // 2. user (Doraemon)
 // 3. gameResult (You won!)
 
-const messageContainer = document.querySelector('#message-container');
+const player0Div = document.querySelector('#player0-div');
 const greeting = document.createElement('h2');
 
 const user = document.createElement('h1'); // innertext defined in login call back
-messageContainer.append(greeting, user);
+player0Div.append(greeting, user);
 
 // === DOM: Logo Related === //
-const logo = document.querySelector('#logo-container');
-logo.classList.add('top-right');
+const logoDiv = document.querySelector('#logo-container');
+logoDiv.classList.add('top-right');
+const logo = document.querySelector('#logo');
 
 // sign up event call back
 const signUp = async () => {
@@ -128,24 +129,32 @@ const login = async () => {
   };
   try {
     const loginResponse = await axios.post('/users/login', userData);
-    const { token } = loginResponse.data;
-    localStorage.setItem('authToken', token);
-    console.log(localStorage);
 
-    console.log('login response', loginResponse);
-    userAuthDiv.remove();
-
-    logo.classList.remove('top-right');
-    logo.classList.add('in-game');
-
-    buttonDiv.append(createButton);
-    buttonDiv.append(logoutBtn);
+    // handle success
     if (loginResponse.data.success === true) {
-      // userDiv.innerText = loginResponse.data.name;
+      // store jwt in local storage
+      const { token } = loginResponse.data;
+      localStorage.setItem('authToken', token);
+      console.log(localStorage);
+
+      // dom manipulation
+
+      console.log('login response', loginResponse);
+      userAuthDiv.remove();
+      logoDiv.classList.remove('top-right');
+      logoDiv.classList.add('in-game');
+      logo.classList.add('logo-in-game');
+      buttonDiv.append(createButton);
+      const sideDiv = document.querySelector('#side-container');
+      sideDiv.append(logoutBtn);
+      console.log(loginResponse.data);
       greeting.innerText = 'Hello,';
       user.innerText = loginResponse.data.name;
-    } else {
-      userDiv.innerText = 'failed';
+    } else if (loginResponse.data.error) {
+      // handle error
+      console.log('error detected');
+      const errorText = document.querySelector('#error-text');
+      errorText.innerHTML = loginResponse.data.error;
     }
   } catch (error) { console.log(error); }
 };
@@ -155,7 +164,7 @@ loginBtn.addEventListener('click', login);
 
 const logoutBtn = document.createElement('button');
 logoutBtn.innerText = 'LOG OUT';
-logoutBtn.classList.add('game-button');
+logoutBtn.classList.add('logout-button');
 
 const logout = async () => {
   console.log('logout function check current game id', currentGameId);

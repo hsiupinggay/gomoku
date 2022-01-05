@@ -25,38 +25,52 @@
   </head>
   <body>
     <!-- user auth -->
-    <div id="user-auth-div">
-      <!-- sign up -->
-      <div id="signup-div">
-        <div class="user-card card text-center">
-          <div class="card-header">
-            <ul class="nav nav-tabs card-header-tabs">
-              <li class="nav-item">
-                <a id="signup-tab" class="nav-link active">SIGN UP</a>
-              </li>
-              <li class="nav-item">
-                <a id="login-tab" class="nav-link">LOG IN</a>
-              </li>
-            </ul>
+    <div id="user-auth-div" class="d-flex flex-column justify-content-center">
+      <!-- sign up/ log in -->
+      <div class="d-flex justify-content-center">
+        <div id="signup-div">
+          <div class="user-card card text-center">
+            <div class="card-header">
+              <ul class="nav nav-tabs card-header-tabs">
+                <li class="nav-item">
+                  <a id="signup-tab" class="nav-link active">SIGN UP</a>
+                </li>
+                <li class="nav-item">
+                  <a id="login-tab" class="nav-link">LOG IN</a>
+                </li>
+              </ul>
+            </div>
+            <div id="user-input-div" class="card-body"></div>
           </div>
-          <div id="user-input-div" class="card-body"></div>
         </div>
       </div>
+      <div id="error-text" class="error-text text-center mt-2"></div>
     </div>
     <!-- end of user auth -->
-    <!-- <div class="container d-flex justify-content-center">
-      <div class="row" id="dashboard-div"></div>
-    </div> -->
-
+    <!-- Main Game -->
     <div class="main">
-      <div id="board-container"></div>
+      <div class="board-wrap">
+        <div id="board-container">
+          <div id="board" class="board"></div>
+        </div>
+      </div>
       <div id="logo-container">
-        <img id="logo" src="/images/play-logo.png" alt="" />
+        <img id="logo" src="/images/play-logo-white.png" alt="" />
       </div>
-      <div class="message-button-container">
-        <div id="message-container"></div>
+      <div id="message-button-container" class="message-button-container">
+        <div id="player0-div"></div>
         <div id="button-container"></div>
+        <div id="side-container"></div>
+        <div id="game-result-div" class="game-result-div"></div>
+        <div id="player1-div" class="player1-div"></div>
       </div>
+    </div>
+    <!-- Overlay for small screens -->
+    <div id="overlay">
+      <p id="overlay-text">
+        This game is best played at full screen, please enlarge your browser or
+        move to a bigger screen.
+      </p>
     </div>
     <!-- Axios -->
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -77,7 +91,6 @@
       crossorigin="anonymous"
     ></script>
     <!-- JavaScript -->
-    <script src="/jwt.js"></script>
     <script src="/user.js"></script>
     <script src="/update.js"></script>
     <script src="/script.js"></script>

@@ -4,10 +4,14 @@
 let playerTurn = 0; // black starts
 let currentGameId; // for req.params on `/games/update/${currentGameId}`
 
-// ==== DOM: Message Box ==== //
+// ==== DOM: Game Result Div ==== //
+const winnerTag = document.createElement('img');
+winnerTag.src = '/images/winner-tag.png';
 
-const gameResult = document.createElement('h2');
-messageContainer.append(gameResult);
+// ==== DOM: Game over overlay ==== //
+// overlays board to prevent clicking once game is over
+const gameOverOverlay = document.createElement('div');
+gameOverOverlay.classList.add('gameover-overlay');
 
 // update function
 // i: y-coord; j: x-cord
@@ -45,10 +49,14 @@ const placeSeed = async (cell, i, j) => {
     // if there is a winner, winnerPlayer key with value of player number will exist
     if (response.data.gameState.winnerPlayer) {
       console.log('player who won', response.data.gameState.winnerPlayer);
+      winnerTag.classList.add('winner-tag');
+      const boardDiv = document.querySelector('#board');
+      boardDiv.append(gameOverOverlay);
+
       if (response.data.gameState.winnerPlayer === 'black') {
-        gameResult.innerText = 'Black wins!';
+        player0Div.append(winnerTag);
       } else if (response.data.gameState.winnerPlayer === 'white') {
-        gameResult.innerText = 'White wins!';
+        player1Div.append(winnerTag);
       }
     }
   } catch (error) { console.log(error); }

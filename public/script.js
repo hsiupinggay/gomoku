@@ -13,9 +13,11 @@ const makeClickableBoard = (tableSize, clickBoard) => {
       const cell = row.insertCell();
       cell.classList.add('cells');
       cell.id = `cell-${j}-${i}`;
-      if (i % 3 === 0 && j % 3 === 0) {
-        cell.innerText = '•';
-        // ・•◆●'
+      if (i % 3 === 0 && j % 3 === 0 && i !== 18 && j !== 18 && j !== 0 && i !== 0) {
+        const star = document.createElement('p');
+        star.classList.add('star');
+        star.innerText = '●';
+        cell.appendChild(star);
       }
 
       // each cell can only be clicked once
@@ -45,20 +47,43 @@ const replayButton = document.createElement('button');
 replayButton.classList.add('game-button');
 replayButton.innerText = 'REPLAY';
 
+// === DOM: Player 0 Div === //
+const blackSeedTag = document.createElement('p');
+blackSeedTag.classList.add('seed-tag');
+player0Div.append(blackSeedTag);
+
+// === DOM: Player 1 Div === //
+const player1Div = document.querySelector('#player1-div');
+const whiteSeedTag = document.createElement('p');
+whiteSeedTag.classList.add('seed-tag');
+const player1Name = document.createElement('h1');
+player1Div.append(player1Name, whiteSeedTag);
+
 // ==== DOM: Board Creation ====//
 const createGame = async () => {
   // JWT auth
+
+  const token = localStorage.getItem('authToken');
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
   if (!token) {
     return alert('Please log in again');
   }
   // set board size
   const tableSize = 19;
   // Front End Board Elements
+
   const boardContainer = document.querySelector('#board-container');
-  const boardDiv = document.createElement('div');
-  boardDiv.classList.add('board');
-  boardDiv.setAttribute('id', 'board');
-  boardContainer.append(boardDiv);
+  const boardDiv = document.querySelector('#board');
+
+  // const boardDiv = document.createElement('div');
+  // boardDiv.id = '#board';
+  // boardDiv.classList.add('board');
+  // boardContainer.append(boardDiv);
 
   const clickBoard = document.createElement('table');
   boardDiv.append(clickBoard);
@@ -86,6 +111,16 @@ const createGame = async () => {
     const { id, player0, player1 } = response.data;
     console.log('player 0', player0);
     console.log('player 1', player1);
+
+    // formats player0Div
+    player0Div.classList.add('player0-ingame');
+    // tag logged in player as black
+    greeting.remove();
+    blackSeedTag.innerText = 'plays black';
+
+    // tag second player as white
+    whiteSeedTag.innerText = 'plays white';
+    player1Name.innerText = player1.name;
     currentGameId = id;
 
     console.log('func create: current game id', currentGameId);
@@ -100,8 +135,11 @@ createButton.addEventListener('click', createGame);
 
 // replay function, resets board and calls createGame
 const replay = () => {
-  const board = document.querySelector('#board');
-  board.remove();
+  const boardDiv = document.querySelector('#board');
+  while (boardDiv.firstChild) {
+    boardDiv.removeChild(boardDiv.firstChild);
+  }
+  winnerTag.remove();
   createGame();
 };
 

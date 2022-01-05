@@ -126,21 +126,6 @@ const initGameController = (db) => {
     const currentPlayerId = req.cookies.userId;
     console.log('current player id', currentPlayerId);
 
-    // // find or create new game entry in db
-    // const [currentGame, created] = await db.Game.findOrCreate({
-    //   where: {
-    //     gameState: { status: 'active' },
-
-    //   },
-    //   defaults: {
-    //     gameState: {
-    //       status: 'active',
-    //       moves: null,
-    //       nextPlayer: 0,
-    //     },
-    //   },
-    // });
-
     // create new game
     const currentGame = await db.Game.create({
       status: 'active',
