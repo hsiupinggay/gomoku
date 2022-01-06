@@ -1,9 +1,13 @@
 /* eslint-disable prefer-const */
-//* * Backend */
+// ** Initiate Go NPM ** //
+// package helps to create a 2d array representation of board where all elements begin as -1
 const go = require('go-game');
 
 let game; // variable for calling go-package in controller
 let nextPlayer; // variable for gameState info in controller
+
+// ********************** //
+//* **** HELPER **** */
 
 // ** Winning Logic */
 
@@ -111,11 +115,12 @@ const getRandomInteger = (max) => {
   return Math.ceil(randomFloat * max);
 };
 
-//* * Controller */
+// ********************** //
+//* **** CONTROLLER **** */
+
 const initGameController = (db) => {
   const index = (req, res) => {
     console.log('inside of controller.index');
-    // console.log(game);
 
     res.render('index');
   };
@@ -123,9 +128,8 @@ const initGameController = (db) => {
   const create = async (req, res) => {
     console.log(req.body);
     const { tableSize } = req.body;
-    console.log('table size', tableSize);
 
-    // create backend game play with go-package
+    // create 19 X 19 2D array
     game = new go(Number(tableSize));
 
     const currentPlayerId = req.cookies.userId;
@@ -183,18 +187,16 @@ const initGameController = (db) => {
   };
 
   const update = async (req, res) => {
-    console.log('request body!!');
-    console.log(req.body);
-    // get coordinates and player turn from frontend
+    console.log('req body in gameController.update', req.body);
+    // get coordinates and player number from frontend
     const { coordinates, player } = req.body;
 
     // get game id via req.params
-    console.log('request params!!');
-    console.log(req.params);
+    console.log('req params in gameController.update, this is game id', req.params);
     const { id } = req.params;
 
     // run function from go-package that executes the current move
-
+    // package helps to change coordinate sent back to either 0 or 1
     if (player === 0) {
       game.playerTurn(go.BLACK, coordinates);
       nextPlayer = 1;
@@ -202,7 +204,7 @@ const initGameController = (db) => {
       game.playerTurn(go.WHITE, coordinates);
       nextPlayer = 0;
     }
-    console.log('really cool board!!');
+    console.log('updated go board matrix');
     console.log(game.field);
 
     // find game to update in db

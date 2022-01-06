@@ -1,20 +1,8 @@
 /* eslint-disable prefer-const */
-// ===== GLOBAL VARIABLE ===== //
 
-let playerTurn = 0; // black starts
-let currentGameId; // for req.params on `/games/update/${currentGameId}`
-
-// ==== DOM: Game Result Div ==== //
-const winnerTag = document.createElement('img');
-winnerTag.src = '/images/winner-tag.png';
-
-// ==== DOM: Game over overlay ==== //
-// overlays board to prevent clicking once game is over
-const gameOverOverlay = document.createElement('div');
-gameOverOverlay.classList.add('gameover-overlay');
-
-// update function
-// i: y-coord; j: x-cord
+// MAIN FUNCTION: runs everytime a seed is placed on board
+// AJAX: sends coordinates and player no. everytime a seed is placed, checks for win
+// DOM: renders the black and white seeds on board
 
 const placeSeed = async (cell, i, j) => {
   const data = {
@@ -34,6 +22,7 @@ const placeSeed = async (cell, i, j) => {
   }
 
   // get coordinates of current position
+  // note i: y-coord; j: x-cord -- this is to accomodate how go-package reads coords
   // const coordinates = [i, j];
 
   console.log('currentMove', data);

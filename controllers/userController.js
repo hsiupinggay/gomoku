@@ -9,6 +9,7 @@ const initUserController = (db) => {
     const { name, email, password } = req.body;
     console.log('new user', { name, email, password });
 
+    // error handling: in case input fields are empty
     if (!email || !password || !name) {
       return res.send({ error: 'Please fill in all required fields.' });
     }
@@ -17,14 +18,15 @@ const initUserController = (db) => {
 
     const hash = await bcrypt.hash(password, Number(PW_SALT));
     console.log(hash);
-    // post data into our db
+
+    // post data into db
     try {
       const newUser = await db.User.create({
         name,
         email,
         password: hash,
       });
-
+      // JWT
       const payload = { id: newUser.id, email: newUser.email };
       const token = jwt.sign(payload, JWT_SALT, { expiresIn: '100d' });
       return res.status(200).send({ newUser, token });

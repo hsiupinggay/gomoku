@@ -1,76 +1,4 @@
-// === DOM: User Auth == //
-
-const userAuthDiv = document.querySelector('#user-auth-div');
-userAuthDiv.classList.add();
-
-// sign up
-const signUpDiv = document.querySelector('#signup-div');
-
-const loginBtn = document.createElement('button');
-loginBtn.classList.add('user-auth-button');
-loginBtn.setAttribute('type', 'submit');
-loginBtn.textContent = 'LOG IN';
-
-const userInputDiv = document.querySelector('#user-input-div');
-
-const nameDiv = document.createElement('div');
-userInputDiv.appendChild(nameDiv);
-
-const nameInput = document.createElement('input');
-nameInput.classList.add('input-bar');
-nameInput.placeholder = 'NAME';
-nameInput.setAttribute('id', 'name');
-nameDiv.appendChild(nameInput);
-
-const emailDiv = document.createElement('div');
-userInputDiv.appendChild(emailDiv);
-
-const emailInput = document.createElement('input');
-emailInput.classList.add('input-bar');
-emailInput.placeholder = 'EMAIL';
-emailInput.setAttribute('id', 'email');
-emailDiv.appendChild(emailInput);
-
-const passwordDiv = document.createElement('div');
-userInputDiv.appendChild(passwordDiv);
-const passwordInput = document.createElement('input');
-passwordInput.classList.add('input-bar');
-passwordInput.placeholder = 'PASSWORD';
-passwordInput.setAttribute('id', 'password');
-passwordInput.type = 'password';
-passwordDiv.appendChild(passwordInput);
-
-const signUpBtn = document.createElement('button');
-signUpBtn.classList.add('user-auth-button');
-
-signUpBtn.setAttribute('type', 'submit');
-signUpBtn.textContent = 'SIGN UP';
-userInputDiv.appendChild(signUpBtn);
-
-const loginTab = document.querySelector('#login-tab');
-const signupTab = document.querySelector('#signup-tab');
-
-// === DOM: Error message === //
-const errorText = document.querySelector('#error-text');
-
-// === DOM: Message Related === //
-// player0Div contains
-// 1. greeting (Hello,)
-// 2. user (Doraemon)
-// 3. gameResult (You won!)
-
-const player0Div = document.querySelector('#player0-div');
-const greeting = document.createElement('h2');
-
-const user = document.createElement('h1'); // innertext defined in login call back
-player0Div.append(greeting, user);
-
-// === DOM: Logo Related === //
-const logoDiv = document.querySelector('#logo-container');
-logoDiv.classList.add('top-right');
-const logo = document.querySelector('#logo');
-
-// callback when login tab is clicked
+// callback for login tab
 const goToLogin = () => {
   nameInput.remove();
   loginTab.classList.add('active');
@@ -80,10 +8,10 @@ const goToLogin = () => {
   userInputDiv.append(loginBtn);
 };
 
-// login tab
+// add event listener to login tab
 loginTab.addEventListener('click', goToLogin);
 
-// sign up event call back
+// callback for sign up button
 const signUp = async () => {
   const newUser = {
     name: document.querySelector('#name').value,
@@ -108,19 +36,14 @@ const signUp = async () => {
     // signUpDiv.remove();
     goToLogin();
 
-    // const dashboardDiv = document.createElement('div');
-    // document.body.appendChild(dashboardDiv);
-
-    // const userDiv = document.createElement('div');
-    // dashboardDiv.appendChild(userDiv);
     errorText.innerText = `Hello ${signUpResponse.data.newUser.name}, log in to start playing.`;
   } catch (error) { console.log(error); }
 };
 
-// signup button functionality
+// add event listener to signup tab
 signUpBtn.addEventListener('click', signUp);
 
-// call back when signup tab is clicked
+// call back for signup tab
 const goToSignup = () => {
   nameDiv.append(nameInput);
   loginTab.classList.remove('active');
@@ -129,9 +52,10 @@ const goToSignup = () => {
   userInputDiv.append(signUpBtn);
 };
 
+// add eventlistener to signup tab
 signupTab.addEventListener('click', goToSignup);
 
-// call back when login button is clicked
+// callback for login button
 const login = async () => {
   const userData = {
     email: document.querySelector('#email').value,
@@ -148,7 +72,6 @@ const login = async () => {
       console.log(localStorage);
 
       // dom manipulation
-
       console.log('login response', loginResponse);
       userAuthDiv.remove();
       logoDiv.classList.remove('top-right');
@@ -168,12 +91,8 @@ const login = async () => {
   } catch (error) { console.log(error); }
 };
 
-// login button functionality
+// add event listener to login button
 loginBtn.addEventListener('click', login);
-
-const logoutBtn = document.createElement('button');
-logoutBtn.innerText = 'LOG OUT';
-logoutBtn.classList.add('logout-button');
 
 const logout = async () => {
   console.log('logout function check current game id', currentGameId);

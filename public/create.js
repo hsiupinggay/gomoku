@@ -1,11 +1,9 @@
 /* eslint-disable prefer-const */
-// event listener call-back for each cell
-// Global Variable //
-let isFirstGame = true;
 
-// making the clickable board, that will be layered above the visible grid
-// j is the x axis, i is the y axis
+// HELPER FUNCTION: makes a clickable board layer
+
 const makeClickableBoard = (tableSize, clickBoard) => {
+  // j is the x axis, i is the y axis
   for (let i = 0; i < tableSize; i += 1) {
     const row = clickBoard.insertRow(i);
     row.classList.add('rows');
@@ -26,7 +24,8 @@ const makeClickableBoard = (tableSize, clickBoard) => {
   }
 };
 
-// making the visible grid, clickable board will be layered above
+// HELPER FUNCTION: makes a visible grid layer
+
 const makeVisibleGrid = (tableSize, grid) => {
   for (let i = 0; i < tableSize - 1; i += 1) {
     const row = grid.insertRow(i);
@@ -36,30 +35,10 @@ const makeVisibleGrid = (tableSize, grid) => {
     }
   }
 };
-// ==== DOM: Create Button ==== //
-const buttonDiv = document.querySelector('#button-container');
-const createButton = document.createElement('button');
-createButton.classList.add('game-button');
-createButton.innerText = 'PLAY';
 
-// === DOM: Replay Button === //
-const replayButton = document.createElement('button');
-replayButton.classList.add('game-button');
-replayButton.innerText = 'REPLAY';
-
-// === DOM: Player 0 Div === //
-const blackSeedTag = document.createElement('p');
-blackSeedTag.classList.add('seed-tag');
-player0Div.append(blackSeedTag);
-
-// === DOM: Player 1 Div === //
-const player1Div = document.querySelector('#player1-div');
-const whiteSeedTag = document.createElement('p');
-whiteSeedTag.classList.add('seed-tag');
-const player1Name = document.createElement('h1');
-player1Div.append(player1Name, whiteSeedTag);
-
-// ==== DOM: Board Creation ====//
+// MAIN FUNCTION: Creates a new game
+// AJAX: creates new game
+// DOM: creates board
 const createGame = async () => {
   // JWT auth
 
@@ -79,11 +58,6 @@ const createGame = async () => {
 
   const boardContainer = document.querySelector('#board-container');
   const boardDiv = document.querySelector('#board');
-
-  // const boardDiv = document.createElement('div');
-  // boardDiv.id = '#board';
-  // boardDiv.classList.add('board');
-  // boardContainer.append(boardDiv);
 
   const clickBoard = document.createElement('table');
   boardDiv.append(clickBoard);
@@ -129,11 +103,13 @@ const createGame = async () => {
     console.log(error);
   }
 };
-// create button created and appended in user.js
 
+// add eventlistener to create (play) button
 createButton.addEventListener('click', createGame);
 
-// replay function, resets board and calls createGame
+// MAIN FUNCTION: allow replay by resetting the board
+// DOM: removes board divs
+// AJAX: calls create function
 const replay = () => {
   const boardDiv = document.querySelector('#board');
   while (boardDiv.firstChild) {
@@ -143,4 +119,5 @@ const replay = () => {
   createGame();
 };
 
+// add event listener to replay button
 replayButton.addEventListener('click', replay);
